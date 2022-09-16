@@ -15,7 +15,7 @@ class LecturesController < ApplicationController
 
   # POST /lectures
   def create
-    @lecture = Lecture.new(parse_lecture(lecture_params[:name]))
+    @lecture = Lecture.new(lecture_params)
 
     if @lecture.save
       render json: @lecture, status: :created
@@ -26,8 +26,10 @@ class LecturesController < ApplicationController
 
   def create_batch
     lines = lecture_batch_params[:file].tempfile.read.split("\n")
-    lines.each do |l|
-      Lecture.create(parse_lecture(l))
+    Lecture.transaction do
+      lines.each do |l|
+        Lecture.create!(name: l)
+      end
     end
     render json: Lecture.all, status: :created
   end
@@ -51,16 +53,6 @@ class LecturesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_lecture
     @lecture = Lecture.find(params[:id])
-  end
-
-  def parse_lecture(name)
-    last_string = name.split.last
-    if last_string == 'lightning'
-      duration = 5
-    else
-      duration = last_string.delete('a-zA-Z').to_i
-    end
-    { name: name, duration: duration }
   end
 
   # Only allow a list of trusted parameters through.
