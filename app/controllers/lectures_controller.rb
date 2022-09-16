@@ -15,13 +15,21 @@ class LecturesController < ApplicationController
 
   # POST /lectures
   def create
-    @lecture = Lecture.new(lecture_params)
+    @lecture = Lecture.new(parse_lecture(lecture_params[:name]))
 
     if @lecture.save
-      render json: @lecture, status: :created, location: @lecture
+      render json: @lecture, status: :created
     else
       render json: @lecture.errors, status: :unprocessable_entity
     end
+  end
+
+  def create_batch
+    lines = lecture_batch_params[:file].tempfile.read.split("\n")
+    lines.each do |l|
+      Lecture.create(parse_lecture(l))
+    end
+    render json: Lecture.all, status: :created
   end
 
   # PATCH/PUT /lectures/1
@@ -45,8 +53,22 @@ class LecturesController < ApplicationController
     @lecture = Lecture.find(params[:id])
   end
 
+  def parse_lecture(name)
+    last_string = name.split.last
+    if last_string == 'lightning'
+      duration = 5
+    else
+      duration = last_string.delete('a-zA-Z').to_i
+    end
+    { name: name, duration: duration }
+  end
+
   # Only allow a list of trusted parameters through.
   def lecture_params
-    params.require(:lecture).permit(:name, :duration, :start_time)
+    params.require(:lecture).permit(:name)
+  end
+
+  def lecture_batch_params
+    params.require(:lecture).permit(:file)
   end
 end
