@@ -1,5 +1,5 @@
 class TracksController < ApplicationController
-  before_action :set_track, only: [:show, :update, :destroy]
+  before_action :set_track, only: %i[show update destroy]
 
   # GET /tracks
   def index
