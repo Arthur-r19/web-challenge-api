@@ -11,7 +11,7 @@ class CreateLecturesAndTracks < ActiveRecord::Migration[6.1]
       t.string :name
       t.integer :duration
       t.time :start_time
-      t.belongs_to :tracks
+      t.belongs_to :track
 
       t.timestamps
     end

@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 2022_09_16_144311) do
     t.string "name"
     t.integer "duration"
     t.time "start_time"
-    t.bigint "tracks_id"
+    t.bigint "track_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["tracks_id"], name: "index_lectures_on_tracks_id"
+    t.index ["track_id"], name: "index_lectures_on_track_id"
   end
 
   create_table "tracks", force: :cascade do |t|
