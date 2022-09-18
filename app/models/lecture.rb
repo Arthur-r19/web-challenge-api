@@ -6,8 +6,9 @@ class Lecture < ApplicationRecord
   validates :name, presence: true
   validates :duration, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 180 }
 
+  scope :by_not_lunch_nor_networking, -> { where('name != ?', 'Almoço').where('name != ?', 'Evento de Networking') }
+
   def parse_lecture
-    # return if !duration.nil?
     if self.name == 'Almoço' || self.name == 'Evento de Networking'
       self.duration = 60
       return
@@ -22,7 +23,8 @@ class Lecture < ApplicationRecord
     self.duration = duration
   end
 
-  def reset_all_lectures
+  def self.reset_all_lectures
+    # remove all lectures associations and reset start_time
     Lecture.update(start_time: nil, track: nil)
   end
 
