@@ -3,7 +3,7 @@ class LecturesController < ApplicationController
 
   # GET /lectures
   def index
-    @lectures = Lecture.all.where('name != ?', 'Almoço').where('name != ?', 'Evento de Networking')
+    @lectures = Lecture.by_not_lunch_nor_networking
 
     render json: @lectures
   end
@@ -18,6 +18,7 @@ class LecturesController < ApplicationController
     @lecture = Lecture.new(lecture_params)
 
     if @lecture.save
+      TrackBuilder.create_schedule
       render json: @lecture, status: :created
     else
       render json: @lecture.errors, status: :unprocessable_entity
@@ -31,13 +32,14 @@ class LecturesController < ApplicationController
         Lecture.create!(name: l)
       end
     end
-    schedule_algorithm
+    TrackBuilder.create_schedule
     render json: Track.all, status: :created
   end
 
   # PATCH/PUT /lectures/1
   def update
     if @lecture.update(lecture_params)
+      TrackBuilder.create_schedule
       render json: @lecture
     else
       render json: @lecture.errors, status: :unprocessable_entity
@@ -47,6 +49,7 @@ class LecturesController < ApplicationController
   # DELETE /lectures/1
   def destroy
     @lecture.destroy
+    TrackBuilder.create_schedule
   end
 
   private
@@ -59,6 +62,10 @@ class LecturesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def lecture_params
     params.require(:lecture).permit(:name)
+  end
+
+  def lecture_batch_params
+    params.require(:lecture).permit(:file)
   end
 
   def lecture_batch_params
