@@ -29,6 +29,7 @@ class LecturesController < ApplicationController
     lines = lecture_batch_params[:file].tempfile.read.split("\n")
     Lecture.transaction do
       lines.each do |l|
+        l.force_encoding('utf-8')
         Lecture.create!(name: l)
       end
     end
