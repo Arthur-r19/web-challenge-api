@@ -21,7 +21,7 @@ API for schedule and manage lectures for a event. After this server setup checko
 ```
 git clone git@github.com:Arthur-r19/web-challenge-api.git
 ```
-### 2. Cnnfigure database.yml file
+### 2. Configure database.yml file
 Set your username and password.
 ### 3. Install dependencies
 ```
