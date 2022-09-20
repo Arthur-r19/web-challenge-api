@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Track, type: :model do
   describe 'associations' do
-    it { should have_many(:lecture) }
+    it { should have_many(:lectures) }
   end
   describe 'methods' do
     context 'self.delete_all_tracks' do
