@@ -30,16 +30,16 @@ class Lecture < ApplicationRecord
   end
 
   def no_numbers_on_name
-    title = name.split
-    title.pop
-    title = title.join(' ')
-    return if title.match(/\d+/).nil?
+    title = name&.split
+    title&.pop
+    title = title&.join(' ')
+    return if title&.match(/\d+/).nil?
 
     errors.add(:name_with_numbers, 'O nome da palestra não pode conter números.')
   end
 
   def lunch_and_networking_belong_to_track
-    return unless name.capitalize == 'Almoço' || name.capitalize == 'Evento de networking'
+    return unless name&.capitalize == 'Almoço' || name&.capitalize == 'Evento de networking'
     return unless track.nil?
 
     errors.add(:association, 'Eventos de almoço e networking não podem ser criados manualmente.')

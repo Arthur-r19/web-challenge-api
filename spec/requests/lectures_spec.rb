@@ -4,8 +4,6 @@ RSpec.describe "Lectures", type: :request do
   describe "GET /index" do
     let!(:lectures) { create_list(:lecture, amount) }
     let(:amount) { 10 }
-    let!(:lecture_lunch) { create(:lecture, name: 'Almoço') }
-    let!(:lecture_lunch) { create(:lecture, name: 'Evento de Networking') }
     before { get '/lectures' }
     it 'should return http status success' do
       expect(response).to have_http_status(:success)
