@@ -9,6 +9,8 @@ class Lecture < ApplicationRecord
   scope :by_not_lunch_nor_networking, -> { where('name != ?', 'Almoço').where('name != ?', 'Evento de Networking') }
 
   def parse_lecture
+    return if name.nil? || name.empty?
+
     if self.name == 'Almoço' || self.name == 'Evento de Networking'
       self.duration = 60
       return
@@ -18,7 +20,7 @@ class Lecture < ApplicationRecord
     if last_string == 'lightning'
       duration = 5
     else
-      duration = last_string.delete('a-zA-Z').to_i
+      duration = last_string&.delete('a-zA-Z').to_i
     end
     self.duration = duration
   end
