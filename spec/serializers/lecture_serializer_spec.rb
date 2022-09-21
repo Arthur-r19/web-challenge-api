@@ -11,7 +11,7 @@ RSpec.describe LectureSerializer, type: :serializer do
     expected_params = { 'id' => lecture.id,
                         'name' => lecture.name,
                         'duration' => lecture.duration,
-                        'start_time' => lecture.start_time }
+                        'start_time' => lecture.start_time&.to_s[11..15] }
     expect(subject).to eql(expected_params)
   end
 end

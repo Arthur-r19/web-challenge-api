@@ -6,12 +6,10 @@ RSpec.describe Track, type: :model do
   end
   describe 'methods' do
     context 'self.delete_all_tracks' do
-      let!(:lectures) { create_list(:lecture, 12, name: 'palestra 60min') }
-      before do
-        TrackBuilder.create_schedule
-      end
+      let!(:tracks) { create_list(:track, amount) }
+      let(:amount) { 5 }
       it 'should delete all tracks' do
-        expect(Track.all.count).to eql(2)
+        expect(Track.all.count).to eql(amount)
         Track.delete_all_tracks
         expect(Track.all.count).to eql(0)
       end

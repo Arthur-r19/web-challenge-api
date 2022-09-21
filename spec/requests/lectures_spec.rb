@@ -24,7 +24,10 @@ RSpec.describe "Lectures", type: :request do
   end
   describe 'POST /create' do
     let(:params) { { lecture: attributes_for(:lecture) } }
-    before { post '/lectures', params: params }
+    before do
+      expect(TrackBuilder).to receive(:create_schedule)
+      post '/lectures', params: params
+    end
     it 'should return http status created' do
       expect(response).to have_http_status(:created)
     end
@@ -34,7 +37,10 @@ RSpec.describe "Lectures", type: :request do
   end
   describe 'POST /create_batch' do
     let(:params) { { lecture: { file: fixture_file_upload('proposals.txt', 'text/plain') } } }
-    before { post '/lectures/batch', params: params }
+    before do
+      expect(TrackBuilder).to receive(:create_schedule).and_call_original
+      post '/lectures/batch', params: params
+    end
     it 'should return http status created' do
       expect(response).to have_http_status(:created)
     end
@@ -48,7 +54,10 @@ RSpec.describe "Lectures", type: :request do
   describe 'PUT /update' do
     let(:lecture) { create(:lecture) }
     let(:params) { { lecture: attributes_for(:lecture) } }
-    before { put "/lectures/#{lecture.id}", params: params }
+    before do
+      expect(TrackBuilder).to receive(:create_schedule).and_call_original
+      put "/lectures/#{lecture.id}", params: params
+    end
     it 'should return http status success' do
       expect(response).to have_http_status(:success)
     end
@@ -60,7 +69,10 @@ RSpec.describe "Lectures", type: :request do
   describe 'DELETE /destroy' do
     let(:lectures) { create_list(:lecture, amount) }
     let(:amount) { 10 }
-    before { delete "/lectures/#{lectures[0].id}" }
+    before do
+      expect(TrackBuilder).to receive(:create_schedule).and_call_original
+      delete "/lectures/#{lectures[0].id}"
+    end
     it 'should return http status success' do
       expect(response).to have_http_status(:success)
     end
