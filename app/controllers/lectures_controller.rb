@@ -3,7 +3,7 @@ class LecturesController < ApplicationController
 
   # GET /lectures
   def index
-    @lectures = Lecture.by_not_lunch_nor_networking
+    @lectures = Lecture.by_not_lunch_nor_networking.order(created_at: :asc)
 
     render json: @lectures
   end
