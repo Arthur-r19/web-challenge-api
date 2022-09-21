@@ -6,17 +6,12 @@ class Lecture < ApplicationRecord
   validates :name, presence: true
   validates :duration, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 180 }
   validate :no_numbers_on_name
-  validate :lunch_and_networking_belong_to_track
 
   scope :by_not_lunch_nor_networking, -> { where('name != ?', 'Almoço').where('name != ?', 'Evento de Networking') }
 
   def parse_lecture
-    return if name.nil? || name.empty?
-
-    if name.capitalize == 'Almoço' || name.capitalize == 'Evento de networking'
-      self.duration = 60
-      return
-    end
+    self.name = name&.split&.join(' ')
+    return if name.nil? || name.empty? || name.capitalize == 'Almoço' || name.capitalize == 'Evento de networking'
 
     last_string = name.split.last
     if last_string == 'lightning'
@@ -24,6 +19,7 @@ class Lecture < ApplicationRecord
     elsif last_string.reverse[0..2] == 'nim'
       duration = last_string&.delete('a-zA-Z').to_i
     else
+      self.duration = 0
       return
     end
     self.duration = duration
@@ -36,13 +32,6 @@ class Lecture < ApplicationRecord
     return if title&.match(/\d+/).nil?
 
     errors.add(:name_with_numbers, 'O nome da palestra não pode conter números.')
-  end
-
-  def lunch_and_networking_belong_to_track
-    return unless name&.capitalize == 'Almoço' || name&.capitalize == 'Evento de networking'
-    return unless track.nil?
-
-    errors.add(:association, 'Eventos de almoço e networking não podem ser criados manualmente.')
   end
 
   def self.reset_all_lectures

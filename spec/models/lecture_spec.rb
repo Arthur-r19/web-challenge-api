@@ -17,26 +17,6 @@ RSpec.describe Lecture, type: :model do
   end
   describe 'methods' do
     context 'parse_lecture' do
-      it 'should set lunch duration correctly' do
-        lecture = Lecture.new(name: 'Almoço')
-        lecture.parse_lecture
-        expect(lecture.duration).to eql(60)
-      end
-      it 'should set lunch duration correctly on save' do
-        lecture = Lecture.new(name: 'Almoço')
-        lecture.save
-        expect(lecture.duration).to eql(60)
-      end
-      it 'should set networking duration correctly' do
-        lecture = Lecture.new(name: 'Evento de Networking')
-        lecture.parse_lecture
-        expect(lecture.duration).to eql(60)
-      end
-      it 'should set networking duration correctly on save' do
-        lecture = Lecture.new(name: 'Evento de Networking')
-        lecture.save
-        expect(lecture.duration).to eql(60)
-      end
       it 'should set lecture duration correctly' do
         duration = Faker::Number.between(from: 1, to: 60)
         lecture = Lecture.new(name: "lecture #{duration}min")

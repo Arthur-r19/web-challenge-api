@@ -5,7 +5,7 @@ class TrackBuilder
       Track.delete_all_tracks
       Lecture.reset_all_lectures
       lectures = []
-      Lecture.order(duration: :desc).each { |l| lectures.append(l) }
+      Lecture.by_not_lunch_nor_networking.order(duration: :desc).each { |l| lectures.append(l) }
       while lectures.count > 0
         track = Track.create
         # morning schedule (9h - 12h)
