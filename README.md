@@ -1,24 +1,39 @@
-# README
+# Web Coding Challenge [API]
+API for schedule and manage lectures for a event. After this server setup checkout the complementary project that consumes this api on: [Web Coding Challenge [Frontend]](https://github.com/Arthur-r19/web-challenge-frontend/tree/develop)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Prerequisites
+- Ruby 3.1.2
+- Rails 6.1.7
+- PostgreSQL 12.12
 
-Things you may want to cover:
+## Gems
+#### Development
+- [Active model serializers](https://github.com/rails-api/active_model_serializers)
 
-* Ruby version
+#### Testing
+- [Rspec](https://github.com/rspec/rspec-rails)
+- [Shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers)
+- [Factory-bot](https://github.com/thoughtbot/factory_bot_rails)
+- [Faker](https://github.com/faker-ruby/faker)
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Setup
+### 1. Clone this repository
+```
+git clone git@github.com:Arthur-r19/web-challenge-api.git
+```
+### 2. Configure database.yml file
+Set your postgresql username and password.
+### 3. Install dependencies
+```
+bundle install
+```
+### 4. Setup database
+```
+rails db:create
+rails db:migrate
+```
+### 5. Start server
+```
+rails s
+```
+Server will be listening on [http:/localhost:3000/](http:/localhost:3000/)
