@@ -31,7 +31,7 @@ class Lecture < ApplicationRecord
     title = title&.join(' ')
     return if title&.match(/\d+/).nil?
 
-    errors.add(:name_with_numbers, 'O nome da palestra não pode conter números.')
+    errors.add(:name, 'não pode conter números')
   end
 
   def self.reset_all_lectures
